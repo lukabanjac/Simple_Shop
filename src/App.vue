@@ -74,6 +74,6 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
-	background-color:rgba(11, 123, 252, 0.158);
+	background-color:rgba(238, 238, 238, 0.158);
 }
 </style>

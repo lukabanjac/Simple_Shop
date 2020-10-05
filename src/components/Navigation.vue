@@ -14,7 +14,10 @@
 				<b-nav-item-dropdown variant="dropdo" class="ml-5" right>
 					<!-- Using 'button-content' slot -->
 					<template v-slot:button-content>
-							<b-icon icon="cart4" font-scale="2" aria-hidden="true"></b-icon>
+							<b-button pill variant="primary">
+								<b-icon icon="cart4" font-scale="2.2" aria-hidden="true"></b-icon>
+															
+							</b-button>
 					</template>
 					<b-dropdown-item href="#">Product</b-dropdown-item>
 				</b-nav-item-dropdown>
