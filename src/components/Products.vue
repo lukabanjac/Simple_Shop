@@ -1,8 +1,5 @@
 <template>
 	<div>
-		<h1>{{ msg }}</h1>
-		<br>
-
 		<b-card-group class="p-3" columns>
 			<div v-bind:key="product.id" v-for="product in products">
 				<b-card
