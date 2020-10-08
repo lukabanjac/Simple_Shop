@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import store from './store'
+
 // Bootstrap
 import { 
   BootstrapVue, 
@@ -30,6 +32,7 @@ Vue.use(TablePlugin)
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
 

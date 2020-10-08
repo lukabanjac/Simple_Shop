@@ -1,13 +1,13 @@
 <template>
-	<div id="shop">
-		<Products v-bind:products="products"/>
+	<div id="shop" v-if="loaded">
+		<Products/>
 	</div>
-
+	<div v-else>
+		<b-spinner variant="primary" type="grow" label="Loading..."></b-spinner>
+	</div>
 </template>
 
 <script>
-import axios from "axios"
-
 import Products from "../components/Products.vue"
 
 
@@ -18,16 +18,10 @@ export default {
 	},
 	data() {
 		return {
-			products: []
+			loaded: Boolean
 		}
-	},
-	created() {
-		// returns a Promise, zato mora then, catch za greske
-		axios.get("https://my-json-server.typicode.com/brankostancevic/products/products")
-		.then(result => this.products = result.data )
-		.catch(error => console.log(error))
-
 	}
+	
 }
 </script>
 

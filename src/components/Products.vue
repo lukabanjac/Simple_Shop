@@ -20,7 +20,7 @@
 						{{ product.description }}
 					</b-card-text>
 
-					<b-button class="d-flex p-2" href="#" variant="outline-primary">
+					<b-button class="d-flex p-2" href="#" variant="outline-primary" @click="addProductToCart(product)">
 							<b-icon icon="cart-plus" class="mr-2" font-scale="1.5" aria-hidden="true"></b-icon>
 							Add to cart
 					</b-button>
@@ -33,17 +33,25 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
 	name: "Products",
-	props: {
-		products: Array
+	computed:
+		mapState({
+			products: state => state.products.all
+		}),
+	methods: mapActions( // mapira metode komponento na pozeive store.dispatch
+		'cart', [ 'addProductToCart' ]
+		),
+	created() {
+		this.$store.dispatch('products/getAllProducts')
 	}
 }
 </script>
 
 
 <style scoped>
-
 	.card {
 		box-shadow: 0px 5px 10px grey
 	}
