@@ -1,6 +1,8 @@
-# simple_shop
+# Simple Shop
 
-## Project setup
+Entry project for JS position at EtonDigital, Novi Sad, 10/2020
+
+## Project setup guide
 ```
 npm install
 ```
@@ -10,15 +12,3 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
