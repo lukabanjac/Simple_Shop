@@ -4,6 +4,9 @@ import Router from 'vue-router'
 import Shop from '../views/Shop.vue'
 import About from '../views/About.vue'
 import Cart from '../views/Cart.vue'
+import Edit from '../views/Edit.vue'
+import New from '../views/New.vue'
+import Error from '../views/Error.vue'
 
 Vue.use(Router)
 
@@ -27,6 +30,21 @@ const routes = [
 		path: '/cart',
 		name: 'cart',
 		component: Cart
+	},
+	{
+		path: '/edit',
+		name: 'edit',
+		component: Edit,
+	},
+	{
+		path: '/new',
+		name: 'new',
+		component: New,
+	},
+	{
+		path: '/error',
+		name: 'error',
+		component: Error,
 	}
 ]
 

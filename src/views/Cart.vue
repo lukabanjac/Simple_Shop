@@ -5,7 +5,7 @@
 			<b-row class="product-row mb-2 pb-2" v-bind:key="product.id" v-for="product in products">
 				<b-col><b-img rounded style="max-width: 100px" :src="product.image" alt=""></b-img></b-col>
 				<b-col>
-					<div class="product-title">{{product.title}} -   ×{{product.quantity}}</div>
+					<div class="product-title">{{product.title}} ×{{product.quantity}}</div>
 					<div class="product-description">{{product.description}}</div>	
 				</b-col>
 				<b-col>
@@ -13,8 +13,8 @@
 					<div class="product-remove">
 						
 							<b-button-group class="mr-3" size="sm">
-								<b-button variant="info"  @click="incrementItem(product)">+</b-button>
 								<b-button variant="warning" :disabled="product.quantity <= 1" @click="decrementItem(product)">-</b-button>
+								<b-button variant="info"  @click="incrementItem(product)">+</b-button>
 							</b-button-group>
 						<b-button size="sm" variant="outline-danger" @click="removeItem(product)">Remove</b-button></div>	
 				</b-col>

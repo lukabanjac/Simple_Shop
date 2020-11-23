@@ -7,7 +7,9 @@ const url = "https://my-json-server.typicode.com/brankostancevic/products/produc
 const state = () => ({
 	loaded: Boolean,
 	active: Boolean,
-	all: []
+	status: '',
+	all: [],
+	filtered: []
 })
 
 const getters = {
@@ -19,6 +21,12 @@ const getters = {
 	},
 	active: (state) => {
 		return state.active
+	},
+	status: (state) => {
+		return state.status
+	},
+	filteredProducts: (state) => {
+		return state.filtered
 	}
 }
 
@@ -31,6 +39,39 @@ const mutations = {
 	},
 	setActive(state, value) {
 		state.active = value
+	},
+	addNew(state, payload) {
+		console.log(payload)
+		state.all.push(payload)
+	},
+	deleteProduct(state, payload) {
+		let index = 0
+		index = state.all.indexOf(payload)
+		state.all.splice(index, 1)
+	},
+	updateProduct(state, payload) {
+		let index = 0
+		index = state.all.indexOf(payload)
+		state.all.splice(index, 1)
+		state.all.push(payload)
+	},
+	setStatus(state, value) {
+		state.status = value
+	},
+	setToAll(state) {
+		state.filtered = state.all
+	},
+	search(state, value) {
+		// TO DO
+
+		let products = state.all
+
+
+		if (products.filter(({title, description}) => { title === value || description === value })) {
+			console.log(products.filter(function(item) { return item.title == value || item.description == value; }))
+		}
+
+
 	}
 }
 
@@ -54,9 +95,29 @@ const actions = {
 		let arry = state.all.sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
 		commit('setProducts', arry)
 	},
-	sortPriceDescending({ state, commit}) {
+	sortPriceDescending({ state, commit }) {
 		let arry = state.all.sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
 		commit('setProducts', arry)
+	},
+	addNewProduct({ commit }, payload) {
+		axios.put(url)
+		.then(() => { commit('addNew', payload) })
+		.catch(error => { commit('setStatus', error.response.status) })
+	},
+	deleteProduct({ commit }, payload) {
+		commit('deleteProduct', payload)
+	},
+	updateProduct({ commit }, payload) {
+		commit('updateProduct', payload)
+	},
+	resetStatus({ commit }) {
+		commit('setStatus', '')
+	},
+	search({ commit }, text) {
+		commit('search', text)
+	},
+	setToAll({ commit }) {
+		commit('setToAll')
 	}
 }
 

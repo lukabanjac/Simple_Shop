@@ -17,14 +17,14 @@
 					<b-button pill variant="primary" to="/about">
 						About						
 					</b-button>
+					<b-button class="ml-3" variant="success" to="/new">
+						New Product						
+					</b-button>
 				</b-nav-item>
 
-				<b-nav-item>
-					<b-dropdown variant="primary" text="Filter" v-show="this.$route.path === '/shop'">
-						<b-dropdown-item @click="priceLowest()">Price: lowest first</b-dropdown-item>
-						<b-dropdown-item @click="priceHighest()">Price: highest first</b-dropdown-item>
-					</b-dropdown>
-				</b-nav-item>
+					<!-- <b-dropdown variant="primary" text="Filter" v-show="this.$route.path === '/shop'"> 
+						</b-dropdown>
+					-->
 				
 				<CartDropdown />
 
@@ -36,18 +36,11 @@
 
 <script>
 import CartDropdown from "./navigation/CartDropdown.vue"
-import { mapActions } from 'vuex'
 
 export default {
 	name: "Navigation",
 	components: {
 		CartDropdown
-	},
-	methods: {
-		...mapActions({
-			priceHighest: 'products/sortPriceDescending',
-			priceLowest: 'products/sortPriceAscending',
-		})
 	}
 }
 </script>

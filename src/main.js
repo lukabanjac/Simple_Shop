@@ -1,5 +1,5 @@
 import Vue from 'vue'
-
+import Vuelidate from 'vuelidate'
 import store from './store'
 
 // Bootstrap
@@ -29,6 +29,7 @@ Vue.use(CardPlugin)
 Vue.use(VBScrollspyPlugin)
 Vue.use(DropdownPlugin)
 Vue.use(TablePlugin)
+Vue.use(Vuelidate)
 
 new Vue({
   router,
