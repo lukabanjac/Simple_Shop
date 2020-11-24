@@ -28,13 +28,23 @@
 							<b-button pill variant="light" @click="editProduct(product)">
 								<b-icon icon="pencil" font-scale=".99" aria-hidden="true"></b-icon>
 							</b-button>
-							<b-button pill variant="light" @click="deleteProduct(product)">
+							<b-button pill variant="light" v-b-modal="'modal-' + product.id">
 								<b-icon icon="trash" font-scale=".99" aria-hidden="true"></b-icon>
 							</b-button>
 						</b-button-group>
+						<b-modal v-bind:id="'modal-' + product.id" @ok="deleteProduct(product)" title="Confirm deletion">Are you shure you want to delete {{ product.title }}?</b-modal>	
 					</b-card>
 			</b-col>
 		</b-row>
+		<div class="fixed-bottom">
+			<b-toast id="deletion-toast" class="fixed-bottom" title="Error" variant="danger" static no-auto-hide>
+				Oops, we had some problems deleting product!
+			</b-toast>
+
+			<b-toast id="edit-toast" class="fixed-bottom" title="Error" variant="danger" static no-auto-hide>
+				Oops, we had some problems finding that product you want to edit!
+			</b-toast>
+		</div>
 	</b-overlay>
 
 </template>
@@ -73,14 +83,13 @@ export default {
 				axios.get(url + '/' + product.id)
 				.then(result => { 
 					this.$store.dispatch('edit/setEditProduct', result.data.id); this.$router.push('/edit/' + result.data.id)})// ? kako da drugacije dodam da ne stavljam +
-				.catch(error => console.log(error))
+				.catch(error => { console.log(error); this.$bvToast.show('edit-toast') })
 			},
 			deleteProduct(product) {
 				axios.delete(url + '/' + product.id)
-				.then(result => { 
-					console.log(result)
+				.then(() => { 
 					this.$store.dispatch('products/deleteProduct', product) })// ? kako da drugacije dodam da ne stavljam +
-				.catch(error => console.log(error))
+				.catch((error) => { console.log(error); this.$bvToast.show('deletion-toast') })
 			}
 	},
 	mounted() {
@@ -127,6 +136,11 @@ export default {
 	}
 
 	
+	.fixed-bottom {
+		top: 0;
+		margin-left: 20px;
+		position: sticky;
+	}
 
 
 	.btn-primary {

@@ -61,6 +61,9 @@
 				</div>
 			</div>
 		</b-form>
+		<b-toast id="edit-toast" class="fixed-bottom" title="Error" variant="danger" static no-auto-hide>
+			Oops, we had some problems submitting your edit!
+		</b-toast>
 	</div>
 	<div v-else>
 		<b-spinner class="spn" variant="primary" type="grow" label="Loading..."></b-spinner>
@@ -88,12 +91,8 @@ export default {
 	computed: {
 		...mapGetters('edit', {
 			product: 'productToEdit',
-			status: 'status',
 			loaded: 'loaded'
-		}),
-		statusChange() {
-			return this.status
-		}
+		})
 	},
 	methods: {
 		onSubmit(evt) {
@@ -103,7 +102,7 @@ export default {
 				.then(result => { this.$store.dispatch("products/updateProduct", result.data);
 				this.$router.push("/")
 			})
-			.catch((error) =>  { console.log(error.response.status) })
+			.catch((error) =>  { console.log(error.response.status);  this.$bvToast.show('edit-toast')  })
 
 		},
 		onReset(evt) {
@@ -160,6 +159,9 @@ export default {
 	}
 
 	.fixed-bottom {
+		top: 0;
+		margin-left: 20px;
+		position: sticky;
 		background-color: rgba(255, 255, 255, 0.3);
 	}
 

@@ -42,7 +42,6 @@ const mutations = {
 		state.all.push(payload)
 	},
 	deleteProduct(state, payload) {
-		console.log(payload)
 		let index = 0
 		index = state.all.indexOf(payload)
 		state.all.splice(index, 1)

@@ -12,16 +12,12 @@ const state = () => ({
 		image: '',
 		price: ''
 	},
-	status: '',
 	loaded: Boolean,
 })
 
 const getters = {
 	productToEdit: (state) => {
 		return state.editingProduct
-	},
-	status: (state) => {
-		return state.status
 	},
 	loaded: (state) => {
 		return state.loaded
@@ -40,18 +36,12 @@ const mutations = {
 	},
 	setLoaded(state, value) {
 		state.loaded = value
-	},
-	setStatus(state, value ) {
-		state.status = value
 	}
 }
 
 const actions = {
 	setEditProduct({ commit }, payload) {
 		commit('setProduct', payload)
-	},
-	resetStatus({ commit }) {
-		commit('setStatus', '')
 	},
 	setLoaded({ commit }, value) {
 		commit('setLoaded', value)
