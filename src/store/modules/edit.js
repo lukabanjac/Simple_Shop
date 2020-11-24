@@ -1,9 +1,3 @@
-import axios from "axios"
-
-const url = "https://my-json-server.typicode.com/brankostancevic/products/db"
-
-
-
 const state = () => ({
 	editingProduct: {
 		id: 0,
@@ -45,12 +39,6 @@ const actions = {
 	},
 	setLoaded({ commit }, value) {
 		commit('setLoaded', value)
-	},
-	submitEdit({ state, commit}, payload) {
-		const editedProduct = payload
-		axios.patch(url, editedProduct)
-		.then(result => { console.log(result); console.log(state.editingProduct)} )
-		.catch((error) =>  { commit('setStatus', error.response.status)} )
 	}
 }
 
