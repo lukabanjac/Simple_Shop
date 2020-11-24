@@ -1,50 +1,56 @@
 <template>
 	<b-overlay :opacity="0.3" spinner-type="none" class="pt-4" :show="isActive" >
-		<b-card-group deck v-bind:key="row.id" v-for="row in formattedRows">
-				<b-card v-bind:key="product.id" v-for="product in row"
-					:title="product.title"
-					:img-src="product.image"
-					img-top
-					sub-title-text-variant="muted"
-					tag="article"
-					align="left"
-					class="mb-4"
-				>
-					<b-card-sub-title>
-						${{ product.price }}
-					</b-card-sub-title>
+		<b-row v-bind:key="row.id" v-for="row in formattedRows">
+			<b-col v-bind:key="product.id" v-for="product in row">
+					<b-card
+						:title="product.title"
+						:img-src="product.image"
+						img-top
+						sub-title-text-variant="muted"
+						tag="article"
+						align="left"
+						class="mb-4"
+					>
+						<b-card-sub-title>
+							${{ product.price }}
+						</b-card-sub-title>
 
-					<b-card-text class="mb-5">
-						{{ product.description }}
-					</b-card-text>
+						<b-card-text class="mb-5">
+							{{ product.description }}
+						</b-card-text>
 
-					<b-button class="container maxed" variant="primary" @click="addProductToCart(product)">
-							<b-icon icon="cart-plus-fill" class="mr-2" font-scale="1.5" aria-hidden="true"></b-icon>
-							Add to cart
-					</b-button>
-
-					<b-button-group class="corner-buttons">
-						<b-button pill variant="light" @click="editProduct(product)">
-							<b-icon icon="pencil" font-scale=".99" aria-hidden="true"></b-icon>
+						<b-button class="container maxed" variant="primary" @click="addProductToCart(product)">
+								<b-icon icon="cart-plus-fill" class="mr-2" font-scale="1.5" aria-hidden="true"></b-icon>
+								Add to cart
 						</b-button>
-						<b-button pill variant="light" @click="deleteProduct(product)">
-							<b-icon icon="trash" font-scale=".99" aria-hidden="true"></b-icon>
-						</b-button>
-					</b-button-group>
-				</b-card>
-		</b-card-group>
+
+						<b-button-group class="corner-buttons">
+							<b-button pill variant="light" @click="editProduct(product)">
+								<b-icon icon="pencil" font-scale=".99" aria-hidden="true"></b-icon>
+							</b-button>
+							<b-button pill variant="light" @click="deleteProduct(product)">
+								<b-icon icon="trash" font-scale=".99" aria-hidden="true"></b-icon>
+							</b-button>
+						</b-button-group>
+					</b-card>
+			</b-col>
+		</b-row>
 	</b-overlay>
 
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import axios from "axios"
+
+const url = "https://my-json-server.typicode.com/brankostancevic/products/products"
+
 
 export default {
 	name: "Products",
 	computed: {
 		...mapGetters('products', {
-			products: 'filteredProducts',
+			products: 'shopProducts',
 			isActive: 'active'
 
 		}),
@@ -64,11 +70,17 @@ export default {
 					toggleActiveState: 'products/toggleActiveState'}
 			),
 			editProduct(product) {
-				this.$store.dispatch('edit/setEditProduct', product)
-				.then(this.$router.push('/edit'))
+				axios.get(url + '/' + product.id)
+				.then(result => { 
+					this.$store.dispatch('edit/setEditProduct', result.data.id); this.$router.push('/edit/' + result.data.id)})// ? kako da drugacije dodam da ne stavljam +
+				.catch(error => console.log(error))
 			},
 			deleteProduct(product) {
-				this.$store.dispatch('products/deleteProduct', product)
+				axios.delete(url + '/' + product.id)
+				.then(result => { 
+					console.log(result)
+					this.$store.dispatch('products/deleteProduct', product) })// ? kako da drugacije dodam da ne stavljam +
+				.catch(error => console.log(error))
 			}
 	},
 	mounted() {

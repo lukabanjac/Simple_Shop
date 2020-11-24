@@ -24,9 +24,6 @@ const getters = {
 	},
 	status: (state) => {
 		return state.status
-	},
-	filteredProducts: (state) => {
-		return state.filtered
 	}
 }
 
@@ -45,15 +42,18 @@ const mutations = {
 		state.all.push(payload)
 	},
 	deleteProduct(state, payload) {
+		console.log(payload)
 		let index = 0
 		index = state.all.indexOf(payload)
 		state.all.splice(index, 1)
 	},
 	updateProduct(state, payload) {
-		let index = 0
-		index = state.all.indexOf(payload)
-		state.all.splice(index, 1)
-		state.all.push(payload)
+		const item = state.all.find(item => item.id === payload.id)
+		item.id =  payload.id,
+		item.title = payload.title,
+		item.description = payload.description,
+		item.price = payload.price,
+		item.image = payload.image
 	},
 	setStatus(state, value) {
 		state.status = value
@@ -100,9 +100,7 @@ const actions = {
 		commit('setProducts', arry)
 	},
 	addNewProduct({ commit }, payload) {
-		axios.put(url)
-		.then(() => { commit('addNew', payload) })
-		.catch(error => { commit('setStatus', error.response.status) })
+		commit('addNew', payload)
 	},
 	deleteProduct({ commit }, payload) {
 		commit('deleteProduct', payload)

@@ -12,7 +12,8 @@ const state = () => ({
 		image: '',
 		price: ''
 	},
-	status: ''
+	status: '',
+	loaded: Boolean,
 })
 
 const getters = {
@@ -21,16 +22,24 @@ const getters = {
 	},
 	status: (state) => {
 		return state.status
+	},
+	loaded: (state) => {
+		return state.loaded
 	}
 }
 
 const mutations = {
 	setProduct(state, product) {
-		state.editingProduct.id = product.id
-		state.editingProduct.title = product.title
-		state.editingProduct.description = product.description
-		state.editingProduct.image = product.image
-		state.editingProduct.price = product.price
+		state.editingProduct = {
+			id: product.id,
+			title: product.title,
+			description: product.description,
+			image: product.image,
+			price: product.price
+		}
+	},
+	setLoaded(state, value) {
+		state.loaded = value
 	},
 	setStatus(state, value ) {
 		state.status = value
@@ -39,12 +48,13 @@ const mutations = {
 
 const actions = {
 	setEditProduct({ commit }, payload) {
-		//da li je ovo ok? - long story short: dobijem obsever, sa stringify u string i onda opet parsiram json...smrdi mi da ne valja
-		const prod = JSON.parse(JSON.stringify(payload)) 
-		commit('setProduct', prod)
+		commit('setProduct', payload)
 	},
 	resetStatus({ commit }) {
 		commit('setStatus', '')
+	},
+	setLoaded({ commit }, value) {
+		commit('setLoaded', value)
 	},
 	submitEdit({ state, commit}, payload) {
 		const editedProduct = payload

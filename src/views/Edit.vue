@@ -1,5 +1,5 @@
 <template>
-	<div class="mt-4 mx-5 text-left">
+	<div v-if="loaded" class="mt-4 mx-5 text-left">
 		<b-form @submit="onSubmit" @reset="onReset">
 			<b-form-group
 				id="input-group-1"
@@ -62,10 +62,16 @@
 			</div>
 		</b-form>
 	</div>
+	<div v-else>
+		<b-spinner class="spn" variant="primary" type="grow" label="Loading..."></b-spinner>
+	</div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import axios from "axios"
+
+const url = "https://my-json-server.typicode.com/brankostancevic/products/products"
 
 export default {
 	name: 'Edit',
@@ -82,7 +88,8 @@ export default {
 	computed: {
 		...mapGetters('edit', {
 			product: 'productToEdit',
-			status: 'status'
+			status: 'status',
+			loaded: 'loaded'
 		}),
 		statusChange() {
 			return this.status
@@ -91,30 +98,40 @@ export default {
 	methods: {
 		onSubmit(evt) {
 			evt.preventDefault()
-			this.$store.dispatch("edit/submitEdit", JSON.stringify(this.form))
-			.then(() => { 
-				this.$store.dispatch("products/updateProduct", this.form)
+
+			axios.put(url + '/' + this.form.id, this.form)
+				.then(result => { this.$store.dispatch("products/updateProduct", result.data);
+				this.$router.push("/")
 			})
-			.catch(() => {
-				console.warn("Error happend")
-			})
+			.catch((error) =>  { console.log(error.response.status) })
 
 		},
 		onReset(evt) {
 			evt.preventDefault()
-			this.form.id = this.product.id
-			this.form.title = this.product.title
-			this.form.description = this.product.description
-			this.form.price = this.product.price
-			this.form.image = this.product.image
+			this.form = {
+				id: this.product.id,
+				title: this.product.title,
+				description: this.product.description,
+				price: this.product.price,
+				image: this.product.image
+			}
 		}
 	},
 	mounted() {
-		this.form.id = this.product.id
-		this.form.title = this.product.title
-		this.form.description = this.product.description
-		this.form.price = this.product.price
-		this.form.image = this.product.image
+		this.$store.dispatch("edit/setLoaded", false)
+		axios.get(url + '/' + this.$route.params.id)
+		.then(result => { 
+			this.$store.dispatch('edit/setEditProduct', result.data);
+			this.form = {
+				id: this.product.id,
+				title: this.product.title,
+				description: this.product.description,
+				price: this.product.price,
+				image: this.product.image
+			}	
+			this.$store.dispatch("edit/setLoaded", true)
+		})// ? kako da drugacije dodam da ne stavljam +
+		.catch(error => console.log(error))
 	},
 	watch: {
 		statusChange (newStatus, oldStatus) {
@@ -144,5 +161,15 @@ export default {
 
 	.fixed-bottom {
 		background-color: rgba(255, 255, 255, 0.3);
+	}
+
+
+	.spn {
+		width: 120px;
+		height: 120px;
+		margin-top: 10%;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
 	}
 </style>
