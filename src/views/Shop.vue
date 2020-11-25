@@ -48,13 +48,8 @@ export default {
 		debounceInput: debounce(function(e) {
 			if (this.search) {
 				this.$store.dispatch("products/search", e.target.value)
-			} else {
-				this.$store.dispatch("products/setToAll")
 			}
 			}, 500)	
-	},
-	updated() {
-		this.$store.dispatch("products/setToAll")
 	}
 }
 	

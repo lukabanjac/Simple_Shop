@@ -6,7 +6,6 @@ import About from '../views/About.vue'
 import Cart from '../views/Cart.vue'
 import Edit from '../views/Edit.vue'
 import New from '../views/New.vue'
-import Error from '../views/Error.vue'
 
 Vue.use(Router)
 
@@ -40,11 +39,6 @@ const routes = [
 		path: '/new',
 		name: 'new',
 		component: New,
-	},
-	{
-		path: '/error',
-		name: 'error',
-		component: Error,
 	}
 ]
 

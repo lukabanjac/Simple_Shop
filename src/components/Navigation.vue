@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import CartDropdown from "./navigation/CartDropdown.vue"
+import CartDropdown from "./CartDropdown.vue"
 
 export default {
 	name: "Navigation",

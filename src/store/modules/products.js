@@ -7,9 +7,7 @@ const url = "https://my-json-server.typicode.com/brankostancevic/products/produc
 const state = () => ({
 	loaded: Boolean,
 	active: Boolean,
-	status: '',
-	all: [],
-	filtered: []
+	all: []
 })
 
 const getters = {
@@ -57,20 +55,9 @@ const mutations = {
 	setStatus(state, value) {
 		state.status = value
 	},
-	setToAll(state) {
-		state.filtered = state.all
-	},
-	search(state, value) {
+	search(value) {
 		// TO DO
-
-		let products = state.all
-
-
-		if (products.filter(({title, description}) => { title === value || description === value })) {
-			console.log(products.filter(function(item) { return item.title == value || item.description == value; }))
-		}
-
-
+		console.log(value)
 	}
 }
 
@@ -112,9 +99,6 @@ const actions = {
 	},
 	search({ commit }, text) {
 		commit('search', text)
-	},
-	setToAll({ commit }) {
-		commit('setToAll')
 	}
 }
 

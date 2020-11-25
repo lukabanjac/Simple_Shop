@@ -1,50 +1,52 @@
 <template>
 	<b-overlay :opacity="0.3" spinner-type="none" class="pt-4" :show="isActive" >
-		<b-row v-bind:key="row.id" v-for="row in formattedRows">
-			<b-col v-bind:key="product.id" v-for="product in row">
-					<b-card
-						:title="product.title"
-						:img-src="product.image"
-						img-top
-						sub-title-text-variant="muted"
-						tag="article"
-						align="left"
-						class="mb-4"
-					>
-						<b-card-sub-title>
-							${{ product.price }}
-						</b-card-sub-title>
+		<b-container fluid='md'>
+			<b-row v-bind:key="row.id" v-for="row in formattedRows">
+				<b-col v-bind:key="product.id" v-for="product in row" class="col-md-4">
+						<b-card
+							:title="product.title"
+							:img-src="product.image"
+							img-top
+							sub-title-text-variant="muted"
+							tag="article"
+							align="left"
+							class="mb-4"
+						>
+							<b-card-sub-title>
+								${{ product.price }}
+							</b-card-sub-title>
 
-						<b-card-text class="mb-5">
-							{{ product.description }}
-						</b-card-text>
+							<b-card-text class="mb-5">
+								{{ product.description }}
+							</b-card-text>
 
-						<b-button class="container maxed" variant="primary" @click="addProductToCart(product)">
-								<b-icon icon="cart-plus-fill" class="mr-2" font-scale="1.5" aria-hidden="true"></b-icon>
-								Add to cart
-						</b-button>
-
-						<b-button-group class="corner-buttons">
-							<b-button pill variant="light" @click="editProduct(product)">
-								<b-icon icon="pencil" font-scale=".99" aria-hidden="true"></b-icon>
+							<b-button class="container maxed" variant="primary" @click="addProductToCart(product)">
+									<b-icon icon="cart-plus-fill" class="mr-2" font-scale="1.5" aria-hidden="true"></b-icon>
+									Add to cart
 							</b-button>
-							<b-button pill variant="light" v-b-modal="'modal-' + product.id">
-								<b-icon icon="trash" font-scale=".99" aria-hidden="true"></b-icon>
-							</b-button>
-						</b-button-group>
-						<b-modal v-bind:id="'modal-' + product.id" @ok="deleteProduct(product)" title="Confirm deletion">Are you shure you want to delete {{ product.title }}?</b-modal>	
-					</b-card>
-			</b-col>
-		</b-row>
-		<div class="fixed-bottom">
-			<b-toast id="deletion-toast" class="fixed-bottom" title="Error" variant="danger" static no-auto-hide>
-				Oops, we had some problems deleting product!
-			</b-toast>
 
-			<b-toast id="edit-toast" class="fixed-bottom" title="Error" variant="danger" static no-auto-hide>
-				Oops, we had some problems finding that product you want to edit!
-			</b-toast>
-		</div>
+							<b-button-group class="corner-buttons">
+								<b-button pill variant="light" @click="editProduct(product)">
+									<b-icon icon="pencil" font-scale=".99" aria-hidden="true"></b-icon>
+								</b-button>
+								<b-button pill variant="light" v-b-modal="'modal-' + product.id">
+									<b-icon icon="trash" font-scale=".99" aria-hidden="true"></b-icon>
+								</b-button>
+							</b-button-group>
+							<b-modal v-bind:id="'modal-' + product.id" @ok="deleteProduct(product)" title="Confirm deletion">Are you shure you want to delete {{ product.title }}?</b-modal>	
+						</b-card>
+				</b-col>
+			</b-row>
+			<div class="fixed-bottom">
+				<b-toast id="deletion-toast" class="fixed-bottom" title="Error" variant="danger" static no-auto-hide>
+					Oops, we had some problems deleting product!
+				</b-toast>
+
+				<b-toast id="edit-toast" class="fixed-bottom" title="Error" variant="danger" static no-auto-hide>
+					Oops, we had some problems finding that product you want to edit!
+				</b-toast>
+			</div>
+		</b-container>
 	</b-overlay>
 
 </template>
@@ -108,6 +110,7 @@ export default {
 
 	.card {
 		box-shadow: 0px 5px 10px grey;
+		max-height: 430px;
 	}
 
 	.card-subtitle {
