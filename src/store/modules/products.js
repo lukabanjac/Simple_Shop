@@ -7,7 +7,8 @@ const url = "https://my-json-server.typicode.com/brankostancevic/products/produc
 const state = () => ({
 	loaded: Boolean,
 	active: Boolean,
-	all: []
+	searchText: '',
+	all: [],
 })
 
 const getters = {
@@ -22,6 +23,9 @@ const getters = {
 	},
 	status: (state) => {
 		return state.status
+	},
+	searchText: (state) => {
+		return state.searchText
 	}
 }
 
@@ -55,9 +59,8 @@ const mutations = {
 	setStatus(state, value) {
 		state.status = value
 	},
-	search(value) {
-		// TO DO
-		console.log(value)
+	search(state, value) {
+		state.searchText = value
 	}
 }
 
