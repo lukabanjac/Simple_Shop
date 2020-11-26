@@ -30,6 +30,11 @@ const url = "https://my-json-server.typicode.com/brankostancevic/products/produc
 
 export default {
 	name: "Products",
+	data() {
+		return {
+			searchedProducts: []
+		}
+	},
 	components: {
 		Product
 	},
@@ -41,7 +46,7 @@ export default {
 
 		}),
 		formattedRows() {
-			return this.products.reduce((c, n, i) => {
+			return this.searchedProducts.reduce((c, n, i) => {
 				if (i % 3 === 0) c.push([]);
 				c[c.length - 1].push(n);
 				return c;
@@ -66,6 +71,16 @@ export default {
 				.then(() => { 
 					this.$store.dispatch('products/deleteProduct', product) })// ? kako da drugacije dodam da ne stavljam +
 				.catch((error) => { console.log(error); this.$bvToast.show('deletion-toast') })
+			},
+			searchProducts(searchText) {
+				let result = []
+				for (let product of this.products) {
+					if (product.description.toUpperCase().includes(searchText.toUpperCase()) || 
+						product.title.toUpperCase().includes(searchText.toUpperCase())) {
+						result.push(product)
+					}
+				}
+				return result
 			}
 	},
 	mounted() {
@@ -75,7 +90,17 @@ export default {
 		this.$root.$on('bv::dropdown::hide', () => {
 			this.toggleActiveState()
 		});
-  }
+		this.searchedProducts = this.products
+	},
+	watch: {
+		searchText: function(value) {
+			if(value) {
+				this.searchedProducts = this.searchProducts(value)
+			} else {
+				this.searchedProducts = this.products
+			}
+		}
+	}
 }
 </script>
 

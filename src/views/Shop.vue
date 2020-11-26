@@ -46,9 +46,7 @@ export default {
 			priceLowest: 'products/sortPriceAscending',
 		}),
 		debounceInput: debounce(function(e) {
-			if (this.search) {
 				this.$store.dispatch("products/search", e.target.value)
-			}
 			}, 500)	
 	}
 }
